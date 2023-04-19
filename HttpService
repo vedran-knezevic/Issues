@@ -1,0 +1,28 @@
+The Problem:
+
+I need to create a HttpService (Interface + Implementation) within an application that will be responsible for communicating with an external API service. There are three types of data that I need to download from a Data Web Store:
+
+    Available Data (list of data packages that are available for purchasing)
+    Purchased Data (list of data packages that the client has already purchased)
+    Discounted Data (list of data packages that can be purchased at a discounted price)
+
+Apart from the Request URI, which is required for all three endpoints, the second endpoint also needs a valid client ID.
+
+The Solution:
+
+I am considering two options (request URI will not be needed in this case):
+
+Two generic requests with different parameters:
+
+    Task GetAsync(string requestUri, Func<Stream, Task> callback); // for the 1st and 3rd requests
+    Task GetAsync(string requestUri, int clientId, Func<Stream, Task> callback); // for the 2nd request
+
+Three separate requests (one for each endpoint):
+
+    Task GetAvailableDataPackageCollectionAsync(Func<Stream, Task> callback); // for the 1st request
+    Task GetPurchasedDataPackageCollectionAsync(int clientId, Func<Stream, Task> callback); //for the 2nd request
+    Task GetDiscountedDataPackageCollectionAsync(Func<Stream, Task> callback); //for the 3rd request
+
+The Confusion:
+
+I am wondering what is the preferred way to do it (or third way).
